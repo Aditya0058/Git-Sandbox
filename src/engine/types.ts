@@ -70,3 +70,15 @@ export function doBranch(state: RepositoryState, name:string): RepositoryState{
     };
 }
 
+// git checkout <branch> / git switch <branch>
+
+export function doCheckout(state: RepositoryState, name: string): RepositoryState{
+    if(!(name in state.branches)){
+        console.error(`Branch '${name}' does not exists`);
+        return state;
+    }
+    return{
+        ...state,
+        head: name,
+    };
+}
