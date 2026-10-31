@@ -82,3 +82,17 @@ export function doCheckout(state: RepositoryState, name: string): RepositoryStat
         head: name,
     };
 }
+
+//git log (just list of commits)
+
+export function doLog(state: RepositoryState): Commit[] {
+  const result: Commit[] = [];
+  let currentId: CommitId | null = state.branches[state.head];
+  while (currentId) {
+    const commit = state.commits[currentId];
+    if (!commit) break;
+    result.push(commit);
+    currentId = commit.parents[0] ?? null;
+  }
+  return result;
+}
