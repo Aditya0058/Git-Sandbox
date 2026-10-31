@@ -24,3 +24,34 @@ export function emptyBook(): RepositoryState {
         nextId: 1,
     };
 }
+
+// git init
+
+export function doInit(state: RepositoryState): RepositoryState{
+    return {
+        ...state,
+        branches:{ main: null},
+        head: "main",
+    };
+}
+
+// git commit -m "mesage"
+export function doCommit(state: RepositoryState, message: string): RepositoryState {
+    const id = `c${state.nextId}`;
+    const parent = state.branches[state.head] ?? null;
+    const commit: Commit = {
+        id,
+        message,
+        parents: parent ? [parent] : [],
+        timestamp: Date.now(), 
+    };
+    return {
+        ...state,
+        commits: { ...state.commits, [id]: commit },
+        branches: { ...state.branches, [state.head]: id },
+        nextId: state.nextId + 1,
+    };
+    
+
+}
+
