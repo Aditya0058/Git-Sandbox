@@ -13,3 +13,14 @@ export interface RepositoryState {
     head: string;
     nextId: number;
 }
+
+// making empty notebook 
+
+export function emptyBook(): RepositoryState {
+    return {
+        commits: {},
+        branches: {},
+        head: "",
+        nextId: 1,
+    };
+}
