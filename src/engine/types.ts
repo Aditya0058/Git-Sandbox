@@ -55,3 +55,18 @@ export function doCommit(state: RepositoryState, message: string): RepositorySta
 
 }
 
+
+// git branch <name>
+export function doBranch(state: RepositoryState, name:string): RepositoryState{
+    if(name in state.branches){
+        console.error(`Branch '${name}' already exists`);
+        return state;
+    }
+    const headCommit = state.branches[state.head];
+    return {
+        ...state,
+        branches: { ...state.branches, [name]: headCommit ?? null },
+
+    };
+}
+
