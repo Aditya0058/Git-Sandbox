@@ -1,4 +1,5 @@
 import { emptyBook, doInit, doCommit, doBranch, doCheckout, doLog } from './engine/types'
+import { tokenize } from './engine/parser';
 import './App.css'
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
   console.log(JSON.stringify(book, null, 2));
 
   console.log("__________________________________");
-  console.log(doLog(book).map(c => `${c.id}  ${c.message}`));
+  tokenize("hit here");
+  console.log(doLog(book));
   return (
     <>
     
