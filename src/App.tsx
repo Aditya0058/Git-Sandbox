@@ -17,7 +17,7 @@ function App() {
   console.log(JSON.stringify(book, null, 2));
 
   console.log("__________________________________");
-  tokenize("git init");
+  console.log(tokenize("git init -m 'hi there what are u doing?"));
   console.log(doLog(book));
   return (
     <>

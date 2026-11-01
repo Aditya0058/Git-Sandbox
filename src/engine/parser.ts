@@ -1,6 +1,5 @@
-// ex - git commit -m "fixed bugs"
-// eg, - git push -u origin main
-// const input = 'git commit -m "fixed bugs"';
+import { RepositoryState, emptyBook, doInit } from "./types";
+
 export function tokenize(input: string): string[] {
     const tokens: string[] = [];
     let current = "";
@@ -30,4 +29,35 @@ export function tokenize(input: string): string[] {
         tokens.push(current);
     }
     return tokens;
+}
+
+export interface CommandResullt {
+    state: RepositoryState;
+    output: string;
+}
+
+export function appyCommand(state: RepositoryState, input:string): CommandResullt{
+    const tokenizedArr = tokenize(input);
+    if(tokenizedArr.length==0){
+        return {
+            state,
+            output: ""
+        }
+    
+    } else if(tokenizedArr[0]!="git"){
+        return {
+            state,
+            output: "error: only git commands are supported"
+        }
+    } else if (tokenizedArr[1] == 'init'){
+        return {
+            state: doInit(emptyBook()),
+            output: "Initialized empty repository"
+        }
+    } else {
+        return {
+            state,
+            output: "error: unknow command"
+        }
+    }
 }
