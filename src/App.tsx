@@ -1,5 +1,6 @@
 import { emptyBook, doInit, doCommit, doBranch, doCheckout, doLog } from './engine/types'
 import { tokenize } from './engine/parser';
+import { applyCommand } from './engine/parser';
 import './App.css'
 
 function App() {

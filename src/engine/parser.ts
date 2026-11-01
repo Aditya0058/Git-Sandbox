@@ -1,4 +1,4 @@
-import { RepositoryState, emptyBook, doInit } from "./types";
+import { type RepositoryState, emptyBook, doInit } from "./types";
 
 export function tokenize(input: string): string[] {
     const tokens: string[] = [];
@@ -36,7 +36,7 @@ export interface CommandResullt {
     output: string;
 }
 
-export function appyCommand(state: RepositoryState, input:string): CommandResullt{
+export function applyCommand(state: RepositoryState, input:string): CommandResullt{
     const tokenizedArr = tokenize(input);
     if(tokenizedArr.length==0){
         return {
