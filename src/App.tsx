@@ -1,25 +1,27 @@
-import { emptyBook, doInit, doCommit, doBranch, doCheckout, doLog } from './engine/types'
+import { emptyBook, doInit, doCommit, doBranch, doCheckout, doLog, type RepositoryState } from './engine/types'
 import { tokenize } from './engine/parser';
 import { applyCommand } from './engine/parser';
 import './App.css'
 
 function App() {
 
-  let book = emptyBook();
-  book = doInit(book);
-  book = doCommit(book, "first");
-  book = doCommit(book, "second");
-  book = doBranch(book, "feature");
-  book = doCheckout(book, "feature");
-  book = doCommit(book, "login");  
-  book = doCheckout(book, "main");
-  book = doCommit(book, "nothing");
+  let state: RepositoryState = emptyBook();
 
-  console.log(JSON.stringify(book, null, 2));
+  const cmds = [
+    "git init",
+    "ls",
+    "git rebase",
+    "git",
+    "",
+  ];
 
-  console.log("__________________________________");
-  console.log(tokenize("git init -m 'hi there what are u doing?"));
-  console.log(doLog(book));
+  for (const c of cmds) {
+    const result = applyCommand(state, c);
+    state = result.state;
+    console.log(JSON.stringify(c), "---", result.output );
+  }
+  console.log("final state: ", state);
+
   return (
     <>
     
