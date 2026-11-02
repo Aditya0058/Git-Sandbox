@@ -83,6 +83,9 @@ export function applyCommand(state: RepositoryState, input:string): CommandResul
             }
             const output = commits.map(c=> `${c.id} ${c.message}`).join("\n");
             return {state, output};
+            
+            
+        
         default: 
             return {state, output: `error: unknown command '${sub}'`};
         

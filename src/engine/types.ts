@@ -59,8 +59,7 @@ export function doCommit(state: RepositoryState, message: string): RepositorySta
 // git branch <name>
 export function doBranch(state: RepositoryState, name:string): RepositoryState{
     if(name in state.branches){
-        console.error(`Branch '${name}' already exists`);
-        return state;
+        throw new Error(`branch ${name} already exists`);
     }
     const headCommit = state.branches[state.head];
     return {
@@ -74,8 +73,7 @@ export function doBranch(state: RepositoryState, name:string): RepositoryState{
 
 export function doCheckout(state: RepositoryState, name: string): RepositoryState{
     if(!(name in state.branches)){
-        console.error(`Branch '${name}' does not exists`);
-        return state;
+        throw new Error(`branch '${name}' does not exist`)
     }
     return{
         ...state,
