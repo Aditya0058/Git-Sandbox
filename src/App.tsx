@@ -1,5 +1,4 @@
-import { emptyBook, doInit, doCommit, doBranch, doCheckout, doLog, type RepositoryState } from './engine/types'
-import { tokenize } from './engine/parser';
+import { emptyBook, doInit, type RepositoryState } from './engine/types'
 import { applyCommand } from './engine/parser';
 import './App.css'
 
