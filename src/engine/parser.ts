@@ -1,4 +1,4 @@
-import { type RepositoryState, emptyBook, doInit, doCommit } from "./types";
+import { type RepositoryState, emptyBook, doInit, doCommit, doBranch, doLog, doCheckout } from "./types";
 
 export function tokenize(input: string): string[] {
     const tokens: string[] = [];
@@ -76,6 +76,13 @@ export function applyCommand(state: RepositoryState, input:string): CommandResul
             return { state: next, output: `[${next.head} ${newId}] ${message}`};
 
         }
+        case "log":
+            const commits = doLog(state);
+            if(commits.length === 0) {
+                return {state, output: "no commits yet"}
+            }
+            const output = commits.map(c=> `${c.id} ${c.message}`).join("\n");
+            return {state, output};
         default: 
             return {state, output: `error: unknown command '${sub}'`};
         

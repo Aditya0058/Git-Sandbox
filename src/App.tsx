@@ -7,18 +7,19 @@ function App() {
 
   let state: RepositoryState = emptyBook();
 
-  // const cmds = ["git init", "ls", "git rebase", "git", "", ];
+  const cmds = ["git log","git init", "git log","git commit -m \'first\'","git commit -m \'second\'", "git commit -m \'third\'","ls", "git rebase", "git log" ];
 
-  // for (const c of cmds) {
-  //   const result = applyCommand(state, c);
-  //   state = result.state;
-  //   console.log(JSON.stringify(c), "---", result.output );
-  // }
+  for (const c of cmds) {
+    const result = applyCommand(state, c);
+    state = result.state;
+    console.log("$", c);
+    console.log(result.output);
+    console.log("---");
+  }
 
-  console.log(applyCommand(state, 'git commit -m "this is first commit"'))
+  // console.log(applyCommand(state, 'git commit -m "this is first commit"'))
   
-  // console.log(result.state)
-  // console.log(result.output)
+
 
   return (
     <>
