@@ -7,7 +7,7 @@ function App() {
 
   let state: RepositoryState = emptyBook();
 
-  const cmds = ["git log","git init", "git log","git commit -m \'first\'","git commit -m \'second\'", "git commit -m \'third\'","ls", "git rebase", "git log" ];
+  const cmds = ["git log","git init", "git log","git commit -m \'first\'", "git log", "git branch master", "git log", "git branch master", "git checkout master", "git checkout cooked"];
 
   for (const c of cmds) {
     const result = applyCommand(state, c);

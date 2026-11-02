@@ -76,6 +76,7 @@ export function applyCommand(state: RepositoryState, input:string): CommandResul
             return { state: next, output: `[${next.head} ${newId}] ${message}`};
 
         }
+
         case "log":
             const commits = doLog(state);
             if(commits.length === 0) {
@@ -83,9 +84,33 @@ export function applyCommand(state: RepositoryState, input:string): CommandResul
             }
             const output = commits.map(c=> `${c.id} ${c.message}`).join("\n");
             return {state, output};
-            
-            
-        
+
+        case "branch":
+            const branchName = tokenizedArr[2];
+            if(!branchName){
+                return {state, output: "error: branch name is required"}
+            }
+
+            try {
+                const result = doBranch(state, branchName);
+                return {state: result, output: `${branchName}: branch created sucessfully`} 
+            } catch (e){
+                return {state, output: `error: ${(e as Error).message}`};
+            };
+        case "switch":
+        case "checkout": {
+            const branchName = tokenizedArr[2];
+            if(!branchName){
+                return {state, output: "error: there should be branch name"}
+            }
+            try{
+                const result = doCheckout(state, branchName);
+                return {state:result, output: `switched to ${branchName} successfully`}
+            } catch (e) {
+                return { state, output:`error: ${(e as Error).message}`};
+            }
+            }
+
         default: 
             return {state, output: `error: unknown command '${sub}'`};
         
