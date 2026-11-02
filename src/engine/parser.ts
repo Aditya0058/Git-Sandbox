@@ -1,4 +1,4 @@
-import { type RepositoryState, emptyBook, doInit } from "./types";
+import { type RepositoryState, emptyBook, doInit, doCommit } from "./types";
 
 export function tokenize(input: string): string[] {
     const tokens: string[] = [];
@@ -44,20 +44,42 @@ export function applyCommand(state: RepositoryState, input:string): CommandResul
             output: ""
         }
     
-    } else if(tokenizedArr[0]!="git"){
+    } 
+    
+    if(tokenizedArr[0]!=="git"){
         return {
             state,
             output: "error: only git commands are supported"
         }
-    } else if (tokenizedArr[1] == 'init'){
-        return {
-            state: doInit(emptyBook()),
-            output: "Initialized empty repository"
-        }
-    } else {
+    } 
+
+    const sub = tokenizedArr[1];
+    if(sub === undefined){
         return {
             state,
-            output: "error: unknow command"
+            output: "error: missing sub-command"
         }
     }
+
+    switch(sub) {
+        case "init":
+            return{state: doInit(emptyBook()), output: "Initialized git repository"};
+        case "commit": {
+            const args = tokenizedArr.slice(2);
+            const i = args.indexOf("-m");
+            if(i === -1 || !args[i+1]){
+                return { state, output: "mesage is required for commit"}
+            } 
+            const message = args[i+1];
+            const next = doCommit(state, message);
+            const newId = next.branches[next.head];
+            return { state: next, output: `[${next.head} ${newId}] ${message}`};
+
+        }
+        default: 
+            return {state, output: `error: unknown command '${sub}'`};
+        
+    }
+
+    
 }
