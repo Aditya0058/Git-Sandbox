@@ -1,30 +1,40 @@
-import { emptyBook, doInit, type RepositoryState } from './engine/types'
+import { emptyBook, type RepositoryState } from './engine/types'
 import { applyCommand } from './engine/parser';
 import './App.css'
+import React, { useRef, useState, type HtmlHTMLAttributes } from 'react';
 
-function App() {
+export default function App() {
 
-  let state: RepositoryState = emptyBook();
-
-  const cmds = ["git log","git init", "git log","git commit -m \'first\'", "git log", "git branch master", "git log", "git branch master", "git checkout master", "git checkout cooked"];
-
-  for (const c of cmds) {
-    const result = applyCommand(state, c);
-    state = result.state;
-    console.log("$", c);
-    console.log(result.output);
-    console.log("---");
-  }
-
-  // console.log(applyCommand(state, 'git commit -m "this is first commit"'))
+  const [state, setState] = useState<RepositoryState>(emptyBook());
+  const [lines, setLines] = useState<string[]>([]);
+  const [input, setInput] = useState("");
   
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>){
+    if(e.key !== 'Enter') return;
+    const result = applyCommand(state, input);
+    setState(result.state);
+    setLines(prev => [...prev, "$ " + input, result.output]);
+    setInput("");
 
-
+  }
+  
   return (
     <>
-    
+    <div className='terminal'>
+      <div className="commands">
+        {lines.map((line, i)=>(
+          <div key={i}>{line}</div>
+        ))}
+      </div>
+      <input 
+        value={input}
+        onChange={e => setInput(e.target.value)}
+        onKeyDown={handleKeyDown}
+        autoFocus
+      />
+    </div>
     </>
-  )
+  );
 }
 
-export default App
+
