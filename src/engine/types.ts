@@ -28,7 +28,7 @@ export function emptyBook(): RepositoryState {
 // git init
 
 export function doInit(state: RepositoryState): RepositoryState{
-    return {
+    return { 
         ...state,
         branches:{ main: null},
         head: "main",
