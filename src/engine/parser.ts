@@ -117,4 +117,4 @@ export function applyCommand(state: RepositoryState, input:string): CommandResul
     }
 
     
-}
+} 
